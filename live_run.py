@@ -24,7 +24,7 @@ class SupertrendStrategy(bt.Strategy):
             if self.data.close[0] < self.supertrend[0]:
                 self.sell()
 
-# Define the live data feed
+# Define the live data feed- we might need to hook to a live source say BBG or anyother 
 class LiveFeed(bt.feeds.GenericCSVData):
     params = (
         ('dtformat', '%Y-%m-%d %H:%M:%S'),
