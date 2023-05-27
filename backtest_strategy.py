@@ -1,5 +1,11 @@
 import pandas as pd
 import backtrader as bt
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
+
+# Define a Dash application
+app = dash.Dash(__name__)
 
 # Define a Strategy class
 class SupertrendStrategy(bt.Strategy):
@@ -97,6 +103,27 @@ def run_backtest(data_path):
     print('Total closed trades:', trade_stats['closed'])
     print('Winning trades:', trade_stats['won'])
     print('Losing trades:', trade_stats['lost'])
+    
+    # Retrieve cumulative P&L
+    pnl = [x.broker.getvalue() for x in results]
+
+    # Plot cumulative P&L using Dash
+    app.layout = html.Div(children=[
+        dcc.Graph(
+            id='pnl-graph',
+            figure={
+                'data': [
+                    {'x': data.index, 'y': pnl, 'type': 'line', 'name': 'Cumulative P&L'}
+                ],
+                'layout': {
+                    'title': 'Cumulative P&L'
+                }
+            }
+        )
+    ])
+
+    # Run the Dash application
+    app.run_server(debug=True)
 
 # Run the backtest with your data file
 data_file = 'path_to_your_data_file.csv'
