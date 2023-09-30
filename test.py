@@ -38,4 +38,5 @@ ax.set_ylabel(selected_assets[1])
 ax.set_zlabel(selected_assets[2])
 
 plt.title('3D Copula Visualization')
+
 plt.show()
